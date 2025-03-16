@@ -1,0 +1,352 @@
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background-color: #c4d9ee;
+    color: #333;
+  }
+  
+  .navbar {
+    padding: 20px;
+    background-color: #fdfdfd;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .navbar nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  
+  .navbar nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .navbar nav a:hover {
+    color: #aa7733;
+  }
+  
+  .site-name {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 20px;
+    color: #000;
+  }
+  
+  .church-image {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  
+  .image-box {
+    width: 50%; /* or use max-width: 800px; for fixed size */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .image-box img {
+    width: 100%;
+    display: block;
+    height: auto;
+  }
+  .pastor-section {
+    text-align: center;
+    margin: 30px 0;
+  }
+  
+  .pastor-image {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  .pastor-bio {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .center-heading {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  .beliefs-text {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .calendar-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .calendar-header h2 {
+    margin: 0;
+  }
+  
+  .calendar {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+  }
+  
+  .calendar th, .calendar td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 80px;
+    vertical-align: top;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .calendar td:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .event-form {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 10;
+  }
+  
+  .event-form input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+  }
+  
+  .event-form button {
+    margin: 5px;
+    padding: 8px 12px;
+    font-weight: bold;
+  }
+  
+  .event {
+    background: #cce5ff;
+    padding: 2px 4px;
+    font-size: 12px;
+    margin-top: 4px;
+    border-radius: 4px;
+  }
+  .upload-section {
+    margin: 30px auto;
+    max-width: 600px;
+    text-align: center;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .upload-section textarea {
+    width: 100%;
+    height: 80px;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .sermon-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .sermon-item {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+  
+  .sermon-item video, .sermon-item audio {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .donation-box {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .qr-code {
+    max-width: 250px;
+    width: 100%;
+    margin: 20px 0;
+  }
+  
+  .center-heading {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 28px;
+  }
+  
+  .center-text {
+    text-align: center;
+    font-size: 18px;
+    max-width: 700px;
+    margin: 0 auto 20px auto;
+    color: #444;
+  }
+  .vision-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+  
+  .vision-item {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .vision-item h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+  
+  .vision-item p {
+    font-size: 16px;
+    color: #444;
+  }
+  
+  .vision-statement {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f7f7f7;
+    border-left: 5px solid #aa7733;
+    text-align: center;
+    border-radius: 8px;
+  }
+  
+  .vision-statement h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  
+  .vision-statement p {
+    font-size: 18px;
+    color: #333;
+  }
+  .school-schedule, .school-info {
+    max-width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .school-schedule ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .school-schedule li {
+    margin-bottom: 8px;
+  }
+  
+  .school-info h3 {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  .school-info p {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+  }
+  .times-box {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .times-box ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .times-box li {
+    margin-bottom: 10px;
+  }
+  
+  .note {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+  .contact-box {
+    max-width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .contact-box h2 {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+  
+  .contact-box p {
+    font-size: 16px;
+    color: #444;
+  }
+  
