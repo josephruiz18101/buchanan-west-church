@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sermons - Buchanan West Baptist Church</title>
   <link rel="stylesheet" href="css/style.css" />
-  <script type="module" src="js/sermons.js"></script>
 </head>
 <body>
   <header class="navbar">
@@ -30,16 +29,20 @@
   <section class="page-content">
     <h1 class="center-heading">Past Sermons</h1>
 
-    <div id="sermonUpload" class="upload-section" style="display:none;">
-      <h2>Upload New Sermon</h2>
-      <input type="file" id="sermonFile" accept="video/*,audio/*" />
-      <textarea id="sermonDesc" placeholder="Enter sermon description..."></textarea>
-      <button id="uploadBtn">Upload Sermon</button>
-    </div>
-
-    <div id="sermonList" class="sermon-list">
-      <!-- Sermons will be listed here -->
+    <div class="facebook-sermons">
+      <h2>Facebook Sermons</h2>
+      <p>You can watch our latest sermons posted by Pastor Jamie Cheramie on Facebook below:</p>
+      <div class="fb-page" data-href="https://www.facebook.com/Jamiecheramie" data-tabs="videos" data-width="500" data-height="600" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+        <blockquote cite="https://www.facebook.com/Jamiecheramie" class="fb-xfbml-parse-ignore">
+          <a href="https://www.facebook.com/Jamiecheramie">Jamie Cheramie</a>
+        </blockquote>
+      </div>
     </div>
   </section>
+
+  <!-- Facebook SDK -->
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0"></script>
 </body>
 </html>
+
