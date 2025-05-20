@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Buchanan West</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { padding: 20px; }
+    textarea, input[type=text], input[type=date] { width: 100%; padding: 10px; margin-bottom: 10px; }
+    button { padding: 10px 15px; font-weight: bold; }
+    .section { margin-bottom: 30px; }
+  </style>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+
+  <div class="section">
+    <h2>Add Upcoming Event</h2>
+    <input id="event-title" type="text" placeholder="Event title">
+    <input id="event-date" type="text" placeholder="Event date">
+    <input id="event-img" type="text" placeholder="Image URL (optional)">
+    <button onclick="addEvent()">Add Event</button>
+  </div>
+
+  <div class="section">
+    <h2>Add Sermon</h2>
+    <textarea id="sermon-desc" placeholder="Series: Back to Jesus\nTitle\nScripture"></textarea>
+    <textarea id="sermon-iframe" placeholder="Paste Facebook iframe embed code"></textarea>
+    <input id="sermon-date" type="text" placeholder="Date (MM/DD/YYYY)">
+    <button onclick="addSermon()">Add Sermon</button>
+  </div>
+
+  <div class="section">
+    <h2>Delete Sermon</h2>
+    <input id="delete-sermon-date" type="text" placeholder="Exact sermon date to delete">
+    <button onclick="deleteSermon()">Delete Sermon</button>
+  </div>
+
+  <div class="section">
+    <h2>Delete Event</h2>
+    <input id="delete-title" type="text" placeholder="Exact event title to delete">
+    <button onclick="deleteEvent()">Delete Event</button>
+  </div>
+
+  <div class="section">
+    <h2>Manage Calendar</h2>
+    <form id="calendar-form">
+      <input type="text" id="calendar-title" placeholder="Event Title" required>
+      <input type="date" id="calendar-date" required>
+      <textarea id="calendar-desc" placeholder="Event Details" required></textarea>
+      <button type="submit">Add to Calendar</button>
+    </form>
+
+    <h3>Delete Calendar Event</h3>
+    <input type="date" id="delete-calendar-date" required>
+    <button onclick="deleteCalendarEvent()">Delete Calendar Event</button>
+
+    <div id="calendar-list"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js';
+    import { getFirestore, collection, addDoc, deleteDoc, doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyApi6lVmv7PaXJc9pJW9BpaOVqTEccoWsQ",
+      authDomain: "bucananchurchadmin.firebaseapp.com",
+      projectId: "bucananchurchadmin",
+      storageBucket: "bucananchurchadmin.firebasestorage.app",
+      messagingSenderId: "300936840591",
+      appId: "1:300936840591:web:8d6946bfe6822fa83577fa",
+      measurementId: "G-STS6Q128C9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        alert("You must be logged in to access the admin dashboard.");
+        window.location.href = "admin.html";
+      }
+    });
+
+    window.addEvent = async () => {
+      const title = document.getElementById('event-title').value;
+      const date = document.getElementById('event-date').value;
+      const img = document.getElementById('event-img').value;
+
+      if (title && date) {
+        await addDoc(collection(db, 'events'), { title, date, img });
+        alert('Event added. Refresh homepage to see changes.');
+      }
+    };
+
+    window.addSermon = async () => {
+      const desc = document.getElementById('sermon-desc').value;
+      const iframe = document.getElementById('sermon-iframe').value;
+      const date = document.getElementById('sermon-date').value;
+
+      if (desc && iframe && date) {
+        await addDoc(collection(db, 'sermons'), { desc, iframe, date });
+        alert('Sermon added. Refresh sermons page to see changes.');
+      }
+    };
+
+    window.deleteSermon = async () => {
+      const date = document.getElementById('delete-sermon-date').value;
+      const q = query(collection(db, 'sermons'), where('date', '==', date));
+      const results = await getDocs(q);
+
+      results.forEach(async (docSnap) => {
+        await deleteDoc(doc(db, 'sermons', docSnap.id));
+      });
+
+      alert('Sermon(s) deleted for the provided date.');
+    };
+
+    window.deleteEvent = async () => {
+      const title = document.getElementById('delete-title').value;
+      const q = query(collection(db, 'events'), where('title', '==', title));
+      const results = await getDocs(q);
+
+      results.forEach(async (docSnap) => {
+        await deleteDoc(doc(db, 'events', docSnap.id));
+      });
+
+      alert('If event existed, it is now deleted.');
+    };
+
+    document.getElementById("calendar-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const title = document.getElementById("calendar-title").value;
+      const date = document.getElementById("calendar-date").value;
+      const desc = document.getElementById("calendar-desc").value;
+
+      if (title && date && desc) {
+        await addDoc(collection(db, "calendar"), { title, date, desc });
+        alert("Calendar event added!");
+      }
+    });
+
+    window.deleteCalendarEvent = async () => {
+      const date = document.getElementById("delete-calendar-date").value;
+      const q = query(collection(db, "calendar"), where("date", "==", date));
+      const results = await getDocs(q);
+
+      results.forEach(async (docSnap) => {
+        await deleteDoc(doc(db, "calendar", docSnap.id));
+      });
+
+      alert("Calendar event(s) for that date deleted.");
+    };
+  </script>
+</body>
+</html>

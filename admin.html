@@ -1,0 +1,65 @@
+<!-- File: /buchanan-west-church/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Buchanan West</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { padding: 20px; text-align: center; }
+    input[type=email], input[type=password] {
+      width: 100%; max-width: 400px; padding: 10px; margin: 10px 0;
+    }
+    button {
+      padding: 10px 15px; font-weight: bold;
+    }
+    .login-box {
+      background: #fff;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h1>Admin Login</h1>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyApi6lVmv7PaXJc9pJW9BpaOVqTEccoWsQ",
+      authDomain: "bucananchurchadmin.firebaseapp.com",
+      projectId: "bucananchurchadmin",
+      storageBucket: "bucananchurchadmin.firebasestorage.app",
+      messagingSenderId: "300936840591",
+      appId: "1:300936840591:web:8d6946bfe6822fa83577fa",
+      measurementId: "G-STS6Q128C9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = async function() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = 'admin-dashboard.html';
+      } catch (error) {
+        alert('Login failed: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>

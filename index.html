@@ -7,7 +7,9 @@
   <title>Buchanan West Baptist Church</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
+  <a href="admin-login.html" class="admin-btn">Admin Login</a>
   <header class="navbar">
     <nav>
       <ul>
@@ -35,28 +37,8 @@
   <section class="upcoming-events">
     <h2 class="center-heading">Upcoming Events</h2>
     <ul class="events-list">
-      <li>
-        <strong>Sunday Worship:</strong> Every Sunday at 10:45 AM<br>
-        <img src="images/worship servicepic.PNG" alt="Sunday Worship" class="event-image">
-      </li>
-      <li>
-        <strong>Wednesday Bible Study:</strong> Wednesdays at 6:00 PM<br>
-        <img src="images/bible studypic.PNG" alt="Bible Study" class="event-image">
-      </li>
-      <li>
-        <strong>Shannon's Third Rodeo (Baby Sprinkle)</strong> April 5, 2025 - at 3:00 PM<br>
-        <img src="images/Rodeo.jpg" alt="Baby Sprinkle" class="event-image">
-      </li>
-      <li>
-        <strong>Easter Service:</strong> April 20, 2025 - at 10:45 AM<br>
-        <img src="images/easter service.PNG" alt="Easter Service" class="event-image">
-      </li>
-      <li>
-        <strong>VBS Magnified</strong> July 13 - 17, 2025 - at  5:30 - 8:00 PM<br>
-        <img src="images/magnified2.PNG" alt="VBS Magnified" class="event-image">
-      </li>
+      <li>Loading events...</li>
     </ul>
-    
   </section>
 
   <section class="quick-links">
@@ -88,5 +70,39 @@
       </div>
     </div>
   </section>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js';
+    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyApi6lVmv7PaXJc9pJW9BpaOVqTEccoWsQ",
+      authDomain: "bucananchurchadmin.firebaseapp.com",
+      projectId: "bucananchurchadmin",
+      storageBucket: "bucananchurchadmin.firebasestorage.app",
+      messagingSenderId: "300936840591",
+      appId: "1:300936840591:web:8d6946bfe6822fa83577fa",
+      measurementId: "G-STS6Q128C9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const list = document.querySelector(".events-list");
+    getDocs(collection(db, "events")).then(snapshot => {
+      list.innerHTML = "";
+      snapshot.forEach((docSnap) => {
+        const { title, date, desc, img } = docSnap.data();
+        list.innerHTML += `
+          <li>
+            <strong>${title}</strong>: ${date}<br>
+            ${desc ? `<em>${desc}</em><br>` : ""}
+            ${img ? `<img class="event-image" src="${img}" alt="${title}">` : ""}
+          </li>
+        `;
+      });
+    });
+  </script>
 </body>
+<a href="admin.html" class="admin-btn">Admin Login</a>
 </html>

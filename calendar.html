@@ -6,10 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calendar - Buchanan West Baptist Church</title>
   <link rel="stylesheet" href="css/style.css" />
-  <script type="module" src="js/calendar.js"></script>
-
 </head>
 <body>
+  <a href="admin-login.html" class="admin-btn">Admin Login</a>
   <header class="navbar">
     <nav>
       <ul>
@@ -56,6 +55,133 @@
     </div>
   </section>
 
-  <script src="js/calendar.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js';
+    import {
+      getFirestore, collection, getDocs, addDoc, doc, deleteDoc, query, where
+    } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyApi6lVmv7PaXJc9pJW9BpaOVqTEccoWsQ",
+      authDomain: "bucananchurchadmin.firebaseapp.com",
+      projectId: "bucananchurchadmin",
+      storageBucket: "bucananchurchadmin.firebasestorage.app",
+      messagingSenderId: "300936840591",
+      appId: "1:300936840591:web:8d6946bfe6822fa83577fa",
+      measurementId: "G-STS6Q128C9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const calendarBody = document.getElementById("calendarBody");
+    const monthYear = document.getElementById("monthYear");
+    const prevMonth = document.getElementById("prevMonth");
+    const nextMonth = document.getElementById("nextMonth");
+    const eventForm = document.getElementById("eventForm");
+    const eventTitle = document.getElementById("eventTitle");
+    const selectedDate = document.getElementById("selectedDate");
+    const saveEvent = document.getElementById("saveEvent");
+    const closeForm = document.getElementById("closeForm");
+
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let selectedDay = null;
+
+    function loadCalendar(month, year) {
+      calendarBody.innerHTML = "";
+      const firstDay = new Date(year, month).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      monthYear.textContent = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+
+      let date = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = document.createElement("tr");
+
+        for (let j = 0; j < 7; j++) {
+          const cell = document.createElement("td");
+          if (i === 0 && j < firstDay) {
+            cell.innerHTML = "";
+          } else if (date > daysInMonth) {
+            break;
+          } else {
+            const fullDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
+            cell.textContent = date;
+            cell.setAttribute("data-date", fullDate);
+            cell.addEventListener("click", () => openForm(fullDate));
+            fetchEventsForDate(fullDate, cell);
+            date++;
+          }
+          row.appendChild(cell);
+        }
+        calendarBody.appendChild(row);
+      }
+    }
+
+    function openForm(dateStr) {
+      selectedDay = dateStr;
+      selectedDate.textContent = `Selected Date: ${dateStr}`;
+      eventForm.style.display = "block";
+    }
+
+    closeForm.addEventListener("click", () => {
+      eventForm.style.display = "none";
+    });
+
+    saveEvent.addEventListener("click", async () => {
+      if (selectedDay && eventTitle.value.trim()) {
+        await addDoc(collection(db, "calendar"), {
+          date: selectedDay,
+          title: eventTitle.value.trim()
+        });
+        eventTitle.value = "";
+        eventForm.style.display = "none";
+        loadCalendar(currentMonth, currentYear);
+      }
+    });
+
+    async function fetchEventsForDate(dateStr, cell) {
+      const q = query(collection(db, "calendar"), where("date", "==", dateStr));
+      const snapshot = await getDocs(q);
+      snapshot.forEach(docSnap => {
+        const event = docSnap.data();
+        const p = document.createElement("p");
+        p.className = "event";
+        p.textContent = event.title;
+        p.title = "Click to delete";
+        p.style.cursor = "pointer";
+        p.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          await deleteDoc(doc(db, "calendar", docSnap.id));
+          loadCalendar(currentMonth, currentYear);
+        });
+        cell.appendChild(p);
+      });
+    }
+
+    prevMonth.addEventListener("click", () => {
+      if (currentMonth === 0) {
+        currentMonth = 11;
+        currentYear--;
+      } else {
+        currentMonth--;
+      }
+      loadCalendar(currentMonth, currentYear);
+    });
+
+    nextMonth.addEventListener("click", () => {
+      if (currentMonth === 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else {
+        currentMonth++;
+      }
+      loadCalendar(currentMonth, currentYear);
+    });
+
+    loadCalendar(currentMonth, currentYear);
+  </script>
 </body>
+<a href="admin.html" class="admin-btn">Admin Login</a>
 </html>
